@@ -1,6 +1,4 @@
-
-
-<header id="intro" style="display: block;">
+<header id="intro" style="display: block;" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <article class="fullheight" style="height: 568px;">
     <div class="hgroup">
       <h1>Landon Hotel</h1>
@@ -80,7 +78,11 @@
                 </td>
                 <td>
                   <strong>Room #: {{room.roomNumber}}</strong><br/>
-                  <strong>Price: ${{room.price}}</strong>
+                  <strong>Price:<br/>
+                    {{ room.price | currency:'USD' }}<br/>
+                    {{ room.price | currency:'CAD' }}<br/>
+                    {{ room.price | currency:'EUR' }}<br/>
+                  </strong>
                 </td>
                 <td>
                   <button type="submit" class="btn btn-primary" (click)="reserveRoom(room.id)">Reserve</button>
