@@ -1,6 +1,5 @@
-package edu.wgu.d387_sample_code.rest;
+package edu.wgu.d387_sample_code.add_ons;
 
-import edu.wgu.d387_sample_code.convertor.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +12,17 @@ public class WelcomeLanguage {
 
     @Autowired
     private ThreadService threadService;
+    @Autowired
+    private TimeKeeper timeKeeper;
+
     @GetMapping("/welcomeFREN")
     public List<String> getWelcome() {
-        List<String> messages = threadService.getWelcomeMessages();
-        return messages;
+        return threadService.getWelcomeMessages();
+    }
+
+    @GetMapping("/time")
+    public Map<String, String> getTime() {
+        return timeKeeper.timeZones();
     }
 
 }

@@ -1,4 +1,5 @@
-<header id="intro" style="display: block;" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<header id="intro" style="display: block;" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+        xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <article class="fullheight" style="height: 568px;">
     <div class="hgroup">
       <h1>Landon Hotel</h1>
@@ -17,16 +18,29 @@
        style="display: block; top: auto; left: auto; bottom: auto; right: auto; position: relative; margin: 0 auto auto; box-sizing: content-box; width: 100%; min-height: 44px; height: auto; padding-top: 0; padding-bottom: 0;">
     <nav id="nav" style="position: relative; top: 0; left: 0; bottom: auto; right: auto; width: 100%;">
       <div class="navbar">
-        <div class="brand"><a href="/#welcome">Landon <span>Hotel</span></a></div>
+        <div class="brand"><a href="/#welcome">Landon <span>Hotel</span></a>
+        </div>
       </div><!-- navbar -->
     </nav>
   </div>
 </header>
 <main id="wrapper">
   <div class="scene" id="welcome">
+    <div style="margin-left: 5rem;">
+    <h6>Join us for a live presentation!</h6>
+      Presentation Link: <a href="https://zoom.us">https://zoom.us/info%20Landon%20Hotel</a>
+      <p>Our online presentation begins at 17:00 UTC. <br/>
+        Presentations take place once every 24 hours, so if <br/>
+        you missed this one, don't worry, we'll be back!
+      </p>
+    <ul *ngIf="timeZones && timeZones.length > 0" style="font-size: large">
+      <span style="font-weight: bold">Current Time:</span>
+      <li>UTC {{ timeZones[0] }} </li>
+      <li>MT {{ timeZones[1] }} </li>
+      <li>ET {{ timeZones[2] }} </li>
+    </ul>
+    </div>
     <article class="content">
-
-
 
       <div class="row">
         <div class=""col-12>

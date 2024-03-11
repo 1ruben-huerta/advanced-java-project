@@ -1,5 +1,6 @@
-package edu.wgu.d387_sample_code.convertor;
+package edu.wgu.d387_sample_code.add_ons;
 
+import edu.wgu.d387_sample_code.add_ons.ThreadService;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 

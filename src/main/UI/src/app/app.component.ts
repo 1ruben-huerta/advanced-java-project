@@ -15,7 +15,19 @@ export class WelcomeRequest {
   getWelcomeMessages(): Observable<Array<string>> {
     return this.http.get<Array<string>>('http://localhost:8080/welcomeFREN');
   }
+
 }
+@Injectable({
+  providedIn: 'root'
+})
+export class TimeZoneRequest {
+  constructor(private http: HttpClient) {}
+
+  getTimeZones(): Observable<Map<string, string>> {
+    return this.http.get<Map<string, string>>('http://localhost:8080/time')
+  }
+}
+
 
 @Component({
   selector: 'app-root',
@@ -26,7 +38,8 @@ export class AppComponent implements OnInit{
 
   constructor(
     private httpClient:HttpClient,
-    private welcomeRequest:WelcomeRequest
+    private welcomeRequest:WelcomeRequest,
+    private timeZoneRequest:TimeZoneRequest
   ){}
 
   private baseURL:string='http://localhost:8080';
@@ -40,6 +53,7 @@ export class AppComponent implements OnInit{
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
   public welcomeMessages: Array<string> = new Array<string>();
+  public timeZones: Array<string> = new Array<string>();
 
     ngOnInit(){
       this.roomsearch= new FormGroup({
@@ -49,6 +63,10 @@ export class AppComponent implements OnInit{
 
       this.welcomeRequest.getWelcomeMessages().subscribe(message => {
         this.welcomeMessages = message;
+      })
+
+      this.timeZoneRequest.getTimeZones().subscribe(time => {
+        this.timeZones = Object.values(time as Map<string, string>);
       })
  //     this.rooms=ROOMS;
 
