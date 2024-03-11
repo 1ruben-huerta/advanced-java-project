@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -18,7 +16,7 @@ public class ThreadServiceImpl implements ThreadService {
 
     static ExecutorService messageExecutor = newFixedThreadPool(5);
     private final String[] languages = { "fr_CA", "en_US"};
-    private final Map<String, String> welcomeMessages = new HashMap<>();
+    private final List<String> welcomeMessages = new ArrayList<>();
     @PostConstruct
     public void createThreads() {
         for (String language : languages) {
@@ -26,7 +24,7 @@ public class ThreadServiceImpl implements ThreadService {
                 try (InputStream stream = new ClassPathResource("welcome_" + language + ".properties").getInputStream()) {
                     Properties properties = new Properties();
                     properties.load(stream);
-                    welcomeMessages.put(language, properties.getProperty("welcome"));
+                    welcomeMessages.add(properties.getProperty("welcome"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -34,7 +32,7 @@ public class ThreadServiceImpl implements ThreadService {
         }
     }
 
-    public Map<String, String> getWelcomeMessages() {
+    public List<String> getWelcomeMessages() {
         return this.welcomeMessages;
     }
 

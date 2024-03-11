@@ -8,15 +8,15 @@ import java.util.*;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class WelcomeLanguage {
 
     @Autowired
     private ThreadService threadService;
     @GetMapping("/welcomeFREN")
-    public Collection<String> getWelcome() {
-        Map<String, String> messages = threadService.getWelcomeMessages();
-        return messages.values();
+    public List<String> getWelcome() {
+        List<String> messages = threadService.getWelcomeMessages();
+        return messages;
     }
 
 }

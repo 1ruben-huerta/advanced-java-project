@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient, HttpResponse,HttpHeaders} from "@angular/common/http";
 import { Observable } from 'rxjs';
@@ -6,7 +6,16 @@ import {map} from "rxjs/operators";
 
 
 
+@Injectable({
+  providedIn: 'root'
+})
+export class WelcomeRequest {
+  constructor(private http: HttpClient) {}
 
+  getWelcomeMessages(): Observable<Array<string>> {
+    return this.http.get<Array<string>>('http://localhost:8080/welcomeFREN');
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -15,7 +24,10 @@ import {map} from "rxjs/operators";
 })
 export class AppComponent implements OnInit{
 
-  constructor(private httpClient:HttpClient){}
+  constructor(
+    private httpClient:HttpClient,
+    private welcomeRequest:WelcomeRequest
+  ){}
 
   private baseURL:string='http://localhost:8080';
 
@@ -27,6 +39,7 @@ export class AppComponent implements OnInit{
   request!:ReserveRoomRequest;
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
+  public welcomeMessages: Array<string> = new Array<string>();
 
     ngOnInit(){
       this.roomsearch= new FormGroup({
@@ -34,8 +47,10 @@ export class AppComponent implements OnInit{
         checkout: new FormControl(' ')
       });
 
+      this.welcomeRequest.getWelcomeMessages().subscribe(message => {
+        this.welcomeMessages = message;
+      })
  //     this.rooms=ROOMS;
-
 
     const roomsearchValueChanges$ = this.roomsearch.valueChanges;
 
