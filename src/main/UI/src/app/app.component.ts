@@ -2,6 +2,7 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient, HttpResponse,HttpHeaders} from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { Location, LocationStrategy } from "@angular/common";
 import {map} from "rxjs/operators";
 
 
@@ -39,10 +40,13 @@ export class AppComponent implements OnInit{
   constructor(
     private httpClient:HttpClient,
     private welcomeRequest:WelcomeRequest,
-    private timeZoneRequest:TimeZoneRequest
+    private timeZoneRequest:TimeZoneRequest,
+    private location:Location,
+    private locationStrategy:LocationStrategy
   ){}
 
-  private baseURL:string='http://localhost:8080';
+  //private baseURL:string='http://localhost:8080';
+  private baseURL:string = this.location.path();
 
   private getUrl:string = this.baseURL + '/room/reservation/v1/';
   private postUrl:string = this.baseURL + '/room/reservation/v1';
