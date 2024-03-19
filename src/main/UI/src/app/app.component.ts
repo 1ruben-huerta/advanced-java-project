@@ -1,11 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {HttpClient, HttpResponse,HttpHeaders} from "@angular/common/http";
 import { Observable } from 'rxjs';
+import { Location, LocationStrategy } from "@angular/common";
 import {map} from "rxjs/operators";
 
 
 
+@Injectable({
+  providedIn: 'root'
+})
+export class WelcomeRequest {
+  constructor(private http: HttpClient) {}
+
+  getWelcomeMessages(): Observable<Array<string>> {
+    return this.http.get<Array<string>>('http://localhost:8080/welcomeFREN');
+  }
+
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class TimeZoneRequest {
+  constructor(private http: HttpClient) {}
+
+  getTimeZones(): Observable<Map<string, string>> {
+    return this.http.get<Map<string, string>>('http://localhost:8080/time')
+  }
+}
 
 
 @Component({
@@ -15,9 +37,16 @@ import {map} from "rxjs/operators";
 })
 export class AppComponent implements OnInit{
 
-  constructor(private httpClient:HttpClient){}
+  constructor(
+    private httpClient:HttpClient,
+    private welcomeRequest:WelcomeRequest,
+    private timeZoneRequest:TimeZoneRequest,
+    private location:Location,
+    private locationStrategy:LocationStrategy
+  ){}
 
-  private baseURL:string='http://localhost:8080';
+  //private baseURL:string='http://localhost:8080';
+  private baseURL:string = this.location.path();
 
   private getUrl:string = this.baseURL + '/room/reservation/v1/';
   private postUrl:string = this.baseURL + '/room/reservation/v1';
@@ -27,6 +56,8 @@ export class AppComponent implements OnInit{
   request!:ReserveRoomRequest;
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
+  public welcomeMessages: Array<string> = new Array<string>();
+  public timeZones: Array<string> = new Array<string>();
 
     ngOnInit(){
       this.roomsearch= new FormGroup({
@@ -34,8 +65,14 @@ export class AppComponent implements OnInit{
         checkout: new FormControl(' ')
       });
 
- //     this.rooms=ROOMS;
+      this.welcomeRequest.getWelcomeMessages().subscribe(message => {
+        this.welcomeMessages = message;
+      })
 
+      this.timeZoneRequest.getTimeZones().subscribe(time => {
+        this.timeZones = Object.values(time as Map<string, string>);
+      })
+ //     this.rooms=ROOMS;
 
     const roomsearchValueChanges$ = this.roomsearch.valueChanges;
 
